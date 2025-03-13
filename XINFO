@@ -1,0 +1,34 @@
+local Workspace = game.Workspace
+local Players = game:GetService("Players")
+local RP = game:GetService("ReplicatedStorage")
+local RemoteEV = getgenv().RemoteEvent
+local Scripts = getgenv().Scripts
+local ALL = getgenv().ALL
+
+local objectsToCheck = {
+    Workspace,
+    RP,
+    Players
+}
+
+if Scripts or ALL then
+    for _, container in ipairs(objectsToCheck) do
+        for _, obj in ipairs(container:GetDescendants()) do
+            if obj:IsA("LocalScript") then
+                print("LocalScript detected in " .. container.Name .. ": " .. obj.Name)
+            elseif obj:IsA("ModuleScript") then
+                print("ModuleScript detected in " .. container.Name .. ": " .. obj.Name)
+            end
+        end
+    end
+end
+
+if RemoteEV or ALL then
+    for _, container in ipairs(objectsToCheck) do
+        for _, obj in ipairs(container:GetDescendants()) do
+            if obj:IsA("RemoteEvent") or obj:IsA("RemoteFunction") then
+                print("RemoteEvent/RemoteFunction detected in " .. container.Name .. ": " .. obj.Name)
+            end
+        end
+    end
+end
